@@ -1,0 +1,11 @@
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.git/
+ast_before.png
+ast_after.png
+ast_before.dot
+ast_after.dot

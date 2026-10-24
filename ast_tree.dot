@@ -1,0 +1,14 @@
+digraph AST {
+    graph [bgcolor="white"];
+    node [shape=box, style="rounded,filled", fillcolor="#E0EAFF", color="#64748B", fontname="Arial"];
+    edge [color="#64748B"];
+    node0 [label="Block"];
+    node1 [label="Assign: x"];
+    node0 -> node1;
+    node2 [label="Num: 10"];
+    node1 -> node2;
+    node3 [label="Assign: y"];
+    node0 -> node3;
+    node4 [label="Num: 50"];
+    node3 -> node4;
+}
