@@ -1,1 +1,1442 @@
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0D1B2A">
+    <title>NEXORA — Intelligent Code Optimization</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #0D1B2A;
+            --deep: #1B263B;
+            --steel: #415A77;
+            --sage: #778D7A;
+            --sand: #D4C4A8;
+            --cream: #F4F1DE;
+            --white: #FFFFFF;
+            --muted: #667085;
+            --border: rgba(13, 27, 42, .12);
+            --shadow: 0 20px 55px rgba(13, 27, 42, .09);
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 20px;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                         "Inter", "Segoe UI", sans-serif;
+            color: var(--navy);
+            background:
+                radial-gradient(ellipse at 5% 5%, rgba(212,196,168,.32), transparent 38%),
+                radial-gradient(ellipse at 95% 20%, rgba(119,141,122,.18), transparent 35%),
+                var(--cream);
+            overflow-x: hidden;
+        }
+
+        button, textarea { font: inherit; }
+        button { cursor: pointer; }
+
+        button:focus-visible, textarea:focus-visible {
+            outline: 3px solid var(--sage);
+            outline-offset: 3px;
+        }
+
+        ::selection {
+            background: var(--sand);
+            color: var(--navy);
+        }
+
+        .background-orb {
+            position: fixed;
+            width: 360px;
+            height: 360px;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: .24;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatOrb 12s ease-in-out infinite alternate;
+        }
+
+        .orb-one {
+            background: var(--sage);
+            top: 10%;
+            left: -200px;
+        }
+
+        .orb-two {
+            background: var(--sand);
+            right: -190px;
+            bottom: 5%;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatOrb {
+            from { transform: translate3d(0,0,0) scale(1); }
+            to { transform: translate3d(45px,-35px,0) scale(1.15); }
+        }
+
+        @keyframes appear {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.04); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .navbar {
+            max-width: 1450px;
+            padding: 23px 5%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -1.3px;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            border-radius: 15px;
+            display: grid;
+            place-items: center;
+            background: var(--navy);
+            color: var(--cream);
+            box-shadow: 0 8px 18px rgba(13,27,42,.18);
+            font-size: 22px;
+            transition: transform .35s;
+        }
+
+        .brand:hover .brand-mark {
+            transform: rotate(-10deg) scale(1.06);
+        }
+
+        .brand span { color: var(--steel); }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-pill, .nav-tag {
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 10px 15px;
+            background: rgba(255,255,255,.65);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--deep);
+        }
+
+        .status-dot {
+            display: inline-block;
+            height: 7px;
+            width: 7px;
+            background: var(--sage);
+            border-radius: 50%;
+            margin-right: 7px;
+            box-shadow: 0 0 0 4px rgba(119,141,122,.15);
+        }
+
+        .hero {
+            max-width: 1100px;
+            padding: 65px 24px 55px;
+            margin: auto;
+            text-align: center;
+            animation: appear .8s ease both;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 16px;
+            border-radius: 100px;
+            background: rgba(255,255,255,.65);
+            border: 1px solid rgba(65,90,119,.18);
+            color: var(--steel);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.6px;
+        }
+
+        .hero h1 {
+            margin: 26px 0 18px;
+            font-size: clamp(43px, 7.2vw, 88px);
+            line-height: .99;
+            letter-spacing: -5px;
+            font-weight: 900;
+        }
+
+        .hero h1 .line-two {
+            display: block;
+            margin-top: 9px;
+            background: linear-gradient(105deg, var(--steel), var(--sage) 48%, #B39A76);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        .feature-pills {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 27px;
+        }
+
+        .feature-pill {
+            padding: 10px 14px;
+            background: rgba(255,255,255,.7);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--deep);
+            transition: transform .25s, background .25s;
+        }
+
+        .feature-pill:hover {
+            transform: translateY(-3px);
+            background: white;
+        }
+
+        .container {
+            width: min(1360px, 92%);
+            margin: 0 auto;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 17px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 22px;
+            border: 1px solid rgba(255,255,255,.8);
+            border-radius: 22px;
+            background: rgba(255,255,255,.72);
+            box-shadow: 0 8px 30px rgba(13,27,42,.04);
+            backdrop-filter: blur(16px);
+            transition: transform .3s, box-shadow .3s;
+            min-width: 0;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-icon {
+            flex-shrink: 0;
+            width: 47px;
+            height: 47px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: var(--cream);
+            color: var(--steel);
+            font-size: 21px;
+        }
+
+        .stat-card:nth-child(2) .stat-icon {
+            background: #E0E7E0;
+            color: var(--sage);
+        }
+
+        .stat-card:nth-child(3) .stat-icon {
+            background: #E9DFCE;
+            color: #806C4F;
+        }
+
+        .stat-label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 10px;
+            letter-spacing: 1.2px;
+            font-weight: 800;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 17px;
+            font-weight: 850;
+            letter-spacing: -.5px;
+            overflow-wrap: anywhere;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            align-items: stretch;
+        }
+
+        .panel {
+            min-width: 0;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,.95);
+            border-radius: 24px;
+            background: rgba(255,255,255,.82);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+            animation: appear .7s ease both;
+        }
+
+        .panel:hover {
+            box-shadow: 0 25px 65px rgba(13,27,42,.12);
+        }
+
+        .panel-header {
+            min-height: 70px;
+            padding: 19px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 14px;
+            font-weight: 850;
+            letter-spacing: -.3px;
+        }
+
+        .panel-icon {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 11px;
+            background: var(--cream);
+            color: var(--steel);
+        }
+
+        .panel-tag {
+            padding: 7px 10px;
+            border-radius: 8px;
+            background: #E7ECE5;
+            color: #536B56;
+            font-size: 9px;
+            font-weight: 850;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .editor-meta {
+            padding: 13px 21px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .editor-meta span:first-child::before {
+            content: "";
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            margin-right: 8px;
+            border-radius: 50%;
+            background: var(--sage);
+        }
+
+        #sourceCode {
+            display: block;
+            width: 100%;
+            min-height: 340px;
+            resize: vertical;
+            padding: 23px 22px;
+            border: none;
+            outline: none;
+            background: rgba(244,241,222,.34);
+            color: var(--navy);
+            font: 13px/1.95 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+            tab-size: 4;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        #sourceCode:focus {
+            background: rgba(244,241,222,.58);
+        }
+
+        .editor-footer {
+            padding: 16px 19px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .hint {
+            font-size: 10px;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+
+        .actions, .output-actions {
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 11px;
+            font-weight: 800;
+            transition: transform .2s, box-shadow .2s, background .2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: scale(.97);
+        }
+
+        .btn:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: var(--cream);
+            border-color: var(--navy);
+            box-shadow: 0 6px 16px rgba(13,27,42,.16);
+        }
+
+        .btn-primary:hover {
+            background: var(--steel);
+            box-shadow: 0 10px 24px rgba(65,90,119,.22);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--deep);
+        }
+
+        .btn-secondary:hover {
+            background: var(--cream);
+        }
+
+        .btn-sage {
+            background: #E3EAE1;
+            color: #425A46;
+            border-color: #D1DDCE;
+        }
+
+        .output-content {
+            min-height: 340px;
+            padding: 22px;
+        }
+
+        .empty-state {
+            min-height: 295px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .empty-icon {
+            height: 90px;
+            width: 90px;
+            border-radius: 30px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(140deg, #E8EDE5, #E9DFCE);
+            color: var(--steel);
+            font-size: 36px;
+            margin-bottom: 24px;
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 10px;
+            font-size: 17px;
+            font-weight: 850;
+        }
+
+        .empty-state p {
+            max-width: 280px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .code-output {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            font: 13px/1.9 "SFMono-Regular", Consolas, monospace;
+            color: var(--deep);
+            background: rgba(244,241,222,.45);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 18px;
+            max-height: 390px;
+            overflow: auto;
+        }
+
+        .output-actions {
+            margin-top: 15px;
+        }
+
+        .error-box {
+            padding: 16px 20px;
+            border: 1px solid #DCA6A6;
+            background: #FFF0EC;
+            color: #8B3535;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 12px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+            animation: appear .3s ease both;
+        }
+
+        .section {
+            margin-top: 26px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,.9);
+            border-radius: 24px;
+            background: rgba(255,255,255,.76);
+            box-shadow: 0 10px 35px rgba(13,27,42,.05);
+            animation: appear .6s ease both;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .section-heading h2 {
+            font-size: 19px;
+            letter-spacing: -.6px;
+            margin: 0;
+            font-weight: 900;
+        }
+
+        .section-heading p {
+            font-size: 12px;
+            color: var(--muted);
+            margin: 7px 0 0;
+            line-height: 1.7;
+        }
+
+        .ast-preview {
+            min-height: 120px;
+            border: 1px dashed rgba(65,90,119,.35);
+            border-radius: 16px;
+            background: rgba(244,241,222,.38);
+            display: grid;
+            place-items: center;
+            padding: 18px;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .ast-preview img {
+            display: block;
+            max-width: 100%;
+            max-height: 500px;
+            height: auto;
+            border-radius: 12px;
+            background: white;
+            cursor: zoom-in;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--navy);
+            color: var(--cream);
+            padding: 14px;
+            font-weight: 800;
+        }
+
+        th:first-child { border-radius: 10px 0 0 10px; }
+        th:last-child { border-radius: 0 10px 10px 0; }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--deep);
+        }
+
+        tbody tr:hover {
+            background: rgba(212,196,168,.16);
+        }
+
+        .line-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .line-stat-card {
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(244,241,222,.38);
+            transition: transform .25s, box-shadow .25s;
+            min-width: 0;
+        }
+
+        .line-stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(13,27,42,.07);
+        }
+
+        .line-stat-card .stat-value {
+            font-size: clamp(20px, 3vw, 30px);
+            margin-top: 10px;
+        }
+
+        .line-stat-note {
+            margin-top: 7px;
+            font-size: 10px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 9px;
+            margin-top: 22px;
+            background: rgba(65,90,119,.12);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--steel), var(--sage));
+            border-radius: inherit;
+            transition: width .8s ease;
+        }
+
+        .line-stats-note {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.8;
+            margin: 17px 0 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 42px 15px 32px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 2;
+        }
+
+        footer strong {
+            color: var(--deep);
+            font-weight: 900;
+        }
+
+        .creator-name {
+            display: inline-block;
+            margin-top: 8px;
+            color: var(--steel);
+            font-size: 13px;
+            letter-spacing: .3px;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(13,27,42,.82);
+            backdrop-filter: blur(12px);
+        }
+
+        .modal.open {
+            display: flex;
+            animation: appear .2s ease both;
+        }
+
+        .modal-card {
+            width: min(1200px, 100%);
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--cream);
+            border: 1px solid rgba(255,255,255,.4);
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 30px 100px rgba(0,0,0,.25);
+        }
+
+        .modal-header {
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h2 {
+            font-size: 17px;
+            margin: 0;
+            font-weight: 900;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow: auto;
+            text-align: center;
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            background: white;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(244,241,222,.4);
+            border-top-color: var(--cream);
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            vertical-align: -2px;
+            margin-right: 7px;
+        }
+
+        [hidden] { display: none !important; }
+
+        @media (max-width: 850px) {
+            .workspace { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: 1fr; }
+            .hero h1 { letter-spacing: -2.5px; }
+            .output-content, #sourceCode { min-height: 260px; }
+            .empty-state { min-height: 220px; }
+        }
+
+        @media (max-width: 600px) {
+            .line-stats-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .navbar { padding: 17px 5%; }
+            .brand { font-size: 21px; }
+            .nav-tag { display: none; }
+            .status-pill { padding: 9px 10px; font-size: 9px; }
+            .hero { padding-top: 40px; }
+            .hero p { font-size: 13px; }
+            .container { width: 94%; }
+            .panel-header { padding: 15px; }
+            .editor-footer { align-items: flex-start; }
+            .actions { width: 100%; }
+            .actions .btn { flex: 1; }
+            .section { padding: 17px; }
+            .section-heading h2 { font-size: 17px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-orb orb-one"></div>
+    <div class="background-orb orb-two"></div>
+
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-mark">N</div>
+            NEXORA<span>.</span>
+        </div>
+
+        <div class="nav-right">
+            <div class="nav-tag">COMPILER INTELLIGENCE</div>
+            <div class="status-pill">
+                <span class="status-dot"></span>WORKSPACE READY
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="eyebrow">
+                <span class="status-dot"></span>
+                INTELLIGENT CODE TRANSFORMATION
+            </div>
+
+            <h1>
+                Code, Refined.
+                <span class="line-two">Performance, Redefined.</span>
+            </h1>
+
+            <p>
+                A smarter compiler optimization workspace. Transform source code,
+                inspect your Abstract Syntax Tree, compare line counts, and explore
+                optimization results through a clean, elegant interface.
+            </p>
+
+            <div class="feature-pills">
+                <span class="feature-pill">✦ Constant Folding</span>
+                <span class="feature-pill">↗ Constant Propagation</span>
+                <span class="feature-pill">◇ AST Visualization</span>
+                <span class="feature-pill">⌘ Code Optimization</span>
+                <span class="feature-pill">📊 Line Reduction</span>
+            </div>
+        </section>
+
+        <div class="container">
+            <section class="stats">
+                <div class="stat-card">
+                    <div class="stat-icon">⌘</div>
+                    <div>
+                        <span class="stat-label">Platform</span>
+                        <div class="stat-value">Nexora Core</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">◇</div>
+                    <div>
+                        <span class="stat-label">Structure Analysis</span>
+                        <div class="stat-value">AST + Symbols</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">ϟ</div>
+                    <div>
+                        <span class="stat-label">Engine Status</span>
+                        <div class="stat-value" id="engineStatus">Ready to optimize</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="workspace">
+                <article class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <span class="panel-icon">▤</span>
+                            Source Environment
+                        </div>
+                        <span class="panel-tag">INPUT</span>
+                    </div>
+
+                    <div class="editor-meta">
+                        <span>SOURCE CODE</span>
+                        <span id="lineCount">0 lines</span>
+                    </div>
+
+                    <textarea id="sourceCode"
+                              spellcheck="false"
+                              aria-label="Source code input"
+                              placeholder="Write your source code here...">a = 10
+b = 20
+
+if a < b:
+    c = a + b
+else:
+    c = a - b
+
+d = 5</textarea>
+
+                    <div class="editor-footer">
+                        <div class="hint">
+                            Write your code and run the optimization pipeline.<br>
+                            Shortcut: Ctrl + Enter · Tab inserts indentation
+                        </div>
+
+                        <div class="actions">
+                            <button class="btn btn-secondary" id="clearBtn">Clear</button>
+                            <button class="btn btn-primary" id="optimizeBtn">✦ Optimize Code</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <span class="panel-icon">ϟ</span>
+                            Optimized Output
+                        </div>
+                        <span class="panel-tag" id="outputTag">READY</span>
+                    </div>
+
+                    <div class="output-content" id="outputContent" aria-live="polite">
+                        <div class="empty-state">
+                            <div class="empty-icon">⌘</div>
+                            <h3>Your optimized code awaits.</h3>
+                            <p>Run the pipeline to reveal your optimized output and inspect the transformation.</p>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <div id="errorBox" class="error-box" role="alert" hidden></div>
+
+            <section class="section" id="lineStatsSection">
+                <div class="section-heading">
+                    <div>
+                        <h2>Code Line Optimization</h2>
+                        <p>Compare your source code with the generated optimized output.</p>
+                    </div>
+                    <span class="panel-tag">LINE ANALYSIS</span>
+                </div>
+
+                <div class="line-stats-grid">
+                    <div class="line-stat-card">
+                        <span class="stat-label">Original Lines</span>
+                        <div class="stat-value" id="originalLines">—</div>
+                        <div class="line-stat-note">Non-empty lines in your input code</div>
+                    </div>
+
+                    <div class="line-stat-card">
+                        <span class="stat-label">Optimized Lines</span>
+                        <div class="stat-value" id="optimizedLines">—</div>
+                        <div class="line-stat-note">Non-empty lines in the generated output</div>
+                    </div>
+
+                    <div class="line-stat-card">
+                        <span class="stat-label">Lines Reduced</span>
+                        <div class="stat-value" id="reducedLines">—</div>
+                        <div class="line-stat-note">Lines saved and percentage reduction</div>
+                    </div>
+                </div>
+
+                <div class="progress-track" aria-label="Line reduction progress">
+                    <div class="progress-fill" id="reductionProgress"></div>
+                </div>
+
+                <p class="line-stats-note" id="lineStatsNote">
+                    Run optimization to calculate line reduction. Blank lines are excluded from the count.
+                </p>
+
+                <div style="margin-top:16px">
+                    <button class="btn btn-primary" id="lineStatsBtn">
+                        ↓ View Line Reduction
+                    </button>
+                </div>
+            </section>
+
+            <section class="section" id="astSection">
+                <div class="section-heading">
+                    <div>
+                        <h2>Abstract Syntax Tree</h2>
+                        <p>Explore the structural representation of your source program.</p>
+                    </div>
+                    <button class="btn btn-primary" id="fullAstBtn" disabled>
+                        ⛶ Full AST View
+                    </button>
+                </div>
+
+                <div class="ast-preview" id="astPreview">
+                    Run optimization to generate your AST visualization.
+                </div>
+            </section>
+
+            <section class="section" id="symbolsSection">
+                <div class="section-heading">
+                    <div>
+                        <h2>Symbol Table</h2>
+                        <p>Review variables and their available values and types.</p>
+                    </div>
+                    <span class="panel-tag">VARIABLE ANALYSIS</span>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Value</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="symbolBody">
+                            <tr>
+                                <td colspan="3">The symbol table will appear after optimization.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <strong>NEXORA</strong> · Intelligent Code Transformation
+        <br>
+        Designed for clarity. Engineered for performance.
+        <br>
+        <span class="creator-name">Created by <strong>Mohit Swami</strong></span>
+    </footer>
+
+    <div class="modal" id="astModal" role="dialog" aria-modal="true"
+         aria-labelledby="astModalTitle">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 id="astModalTitle">NEXORA · Full AST Visualization</h2>
+                <button class="btn btn-secondary" id="closeAstBtn">✕ Close</button>
+            </div>
+            <div class="modal-body" id="astModalBody">
+                AST visualization will appear here.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        "use strict";
+
+        const sourceCode = document.getElementById("sourceCode");
+        const optimizeBtn = document.getElementById("optimizeBtn");
+        const clearBtn = document.getElementById("clearBtn");
+        const outputContent = document.getElementById("outputContent");
+        const outputTag = document.getElementById("outputTag");
+        const engineStatus = document.getElementById("engineStatus");
+        const errorBox = document.getElementById("errorBox");
+        const lineCount = document.getElementById("lineCount");
+        const astPreview = document.getElementById("astPreview");
+        const fullAstBtn = document.getElementById("fullAstBtn");
+        const astModal = document.getElementById("astModal");
+        const astModalBody = document.getElementById("astModalBody");
+        const closeAstBtn = document.getElementById("closeAstBtn");
+        const symbolBody = document.getElementById("symbolBody");
+
+        const originalLinesElement = document.getElementById("originalLines");
+        const optimizedLinesElement = document.getElementById("optimizedLines");
+        const reducedLinesElement = document.getElementById("reducedLines");
+        const reductionProgress = document.getElementById("reductionProgress");
+        const lineStatsNote = document.getElementById("lineStatsNote");
+        const lineStatsBtn = document.getElementById("lineStatsBtn");
+
+        let latestAstUrl = null;
+        let latestOptimizedCode = "";
+        let lastSuccessfulSource = "";
+
+        // Count non-empty source lines; indentation is preserved.
+        function countLines(code) {
+            if (!code || !code.trim()) return 0;
+
+            return code
+                .split(/\r?\n/)
+                .filter(line => line.trim() !== "")
+                .length;
+        }
+
+        function updateLineCount() {
+            const lines = sourceCode.value.split(/\r?\n/).length;
+            lineCount.textContent = `${lines} line${lines === 1 ? "" : "s"}`;
+        }
+
+        function showError(message) {
+            errorBox.textContent = message || "An unexpected error occurred.";
+            errorBox.hidden = false;
+            engineStatus.textContent = "Error";
+            outputTag.textContent = "ERROR";
+        }
+
+        function clearError() {
+            errorBox.hidden = true;
+            errorBox.textContent = "";
+        }
+
+        function showEmptyOutput() {
+            outputContent.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">⌘</div>
+                    <h3>Your optimized code awaits.</h3>
+                    <p>Run the pipeline to reveal your optimized output and inspect the transformation.</p>
+                </div>`;
+        }
+
+        function escapeHTML(value) {
+            return String(value).replace(/[&<>"']/g, char => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[char]);
+        }
+
+        function resetLineStats() {
+            originalLinesElement.textContent = "—";
+            optimizedLinesElement.textContent = "—";
+            reducedLinesElement.textContent = "—";
+            reductionProgress.style.width = "0%";
+            lineStatsNote.textContent =
+                "Run optimization to calculate line reduction. Blank lines are excluded from the count.";
+        }
+
+        function updateLineStats(originalCode, optimizedCode) {
+            const originalCount = countLines(originalCode);
+            const optimizedCount = countLines(optimizedCode);
+
+            // A positive number means lines were removed.
+            // A negative number means the generated code has more lines.
+            const difference = originalCount - optimizedCount;
+            const percentage = originalCount > 0
+                ? (difference / originalCount) * 100
+                : 0;
+
+            originalLinesElement.textContent = originalCount;
+            optimizedLinesElement.textContent = optimizedCount;
+
+            if (difference > 0) {
+                reducedLinesElement.textContent =
+                    `${difference} (${percentage.toFixed(1)}%)`;
+
+                lineStatsNote.textContent =
+                    `Optimization reduced the non-empty line count by ${difference} line(s).`;
+            } else if (difference === 0) {
+                reducedLinesElement.textContent = "0 (0.0%)";
+
+                lineStatsNote.textContent =
+                    "The non-empty line count did not change. The optimizer may still have simplified expressions.";
+            } else {
+                reducedLinesElement.textContent =
+                    `${difference} (${percentage.toFixed(1)}%)`;
+
+                lineStatsNote.textContent =
+                    `The generated output has ${Math.abs(difference)} more non-empty line(s) than the input.`;
+            }
+
+            // Visualize only positive reduction; never show a negative-width bar.
+            reductionProgress.style.width =
+                `${Math.max(0, Math.min(100, percentage))}%`;
+        }
+
+        sourceCode.addEventListener("input", updateLineCount);
+
+        // Tab inserts four spaces without trimming existing indentation.
+        sourceCode.addEventListener("keydown", event => {
+            if (event.key === "Tab") {
+                event.preventDefault();
+
+                const start = sourceCode.selectionStart;
+                const end = sourceCode.selectionEnd;
+
+                sourceCode.setRangeText("    ", start, end, "end");
+                updateLineCount();
+            }
+
+            if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+                event.preventDefault();
+                runOptimization();
+            }
+        });
+
+        clearBtn.addEventListener("click", () => {
+            sourceCode.value = "";
+            updateLineCount();
+            clearError();
+            showEmptyOutput();
+
+            engineStatus.textContent = "Ready to optimize";
+            outputTag.textContent = "READY";
+
+            astPreview.textContent =
+                "Run optimization to generate your AST visualization.";
+
+            symbolBody.innerHTML =
+                '<tr><td colspan="3">The symbol table will appear after optimization.</td></tr>';
+
+            latestAstUrl = null;
+            latestOptimizedCode = "";
+            lastSuccessfulSource = "";
+
+            fullAstBtn.disabled = true;
+            resetLineStats();
+        });
+
+        optimizeBtn.addEventListener("click", runOptimization);
+
+        async function runOptimization() {
+            clearError();
+
+            // Do not trim or normalize sourceCode.value:
+            // leading spaces are important for indentation-based syntax.
+            const source = sourceCode.value;
+
+            if (!source.trim()) {
+                showError("Please enter source code before running optimization.");
+                return;
+            }
+
+            optimizeBtn.disabled = true;
+            optimizeBtn.innerHTML = '<span class="spinner"></span> Optimizing...';
+            engineStatus.textContent = "Processing...";
+            outputTag.textContent = "RUNNING";
+
+            try {
+                const response = await fetch("/optimize", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ code: source })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.error) {
+                    throw new Error(data.error || `Request failed (${response.status})`);
+                }
+
+                latestOptimizedCode = data.optimized_code || "";
+                lastSuccessfulSource = source;
+
+                // Update line counts using the actual generated output.
+                updateLineStats(source, latestOptimizedCode);
+
+                outputContent.innerHTML = `
+                    <div class="editor-meta" style="margin:-22px -22px 18px">
+                        <span>OPTIMIZED SOURCE</span>
+                        <span>GENERATED</span>
+                    </div>
+                    <pre class="code-output">${escapeHTML(latestOptimizedCode)}</pre>
+                    <div class="output-actions">
+                        <button class="btn btn-secondary" id="copyOutputBtn">Copy Optimized Code</button>
+                        <button class="btn btn-sage" id="downloadOutputBtn">Download .txt</button>
+                        <button class="btn btn-secondary" id="outputLineStatsBtn">📊 Line Reduction</button>
+                    </div>`;
+
+                document.getElementById("copyOutputBtn")
+                    .addEventListener("click", async () => {
+                        try {
+                            await navigator.clipboard.writeText(latestOptimizedCode);
+                            document.getElementById("copyOutputBtn").textContent = "✓ Copied";
+                        } catch {
+                            showError("Clipboard access failed. Select and copy the output manually.");
+                        }
+                    });
+
+                document.getElementById("downloadOutputBtn")
+                    .addEventListener("click", () => {
+                        const blob = new Blob(
+                            [latestOptimizedCode],
+                            { type: "text/plain;charset=utf-8" }
+                        );
+
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement("a");
+
+                        link.href = url;
+                        link.download = "nexora_optimized.txt";
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+
+                        URL.revokeObjectURL(url);
+                    });
+
+                document.getElementById("outputLineStatsBtn")
+                    .addEventListener("click", () => {
+                        document.getElementById("lineStatsSection").scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+                    });
+
+                const astPath = data.ast_image || "/ast-image";
+                latestAstUrl =
+                    `${astPath}${astPath.includes("?") ? "&" : "?"}t=${Date.now()}`;
+
+                astPreview.innerHTML = "";
+
+                const astImage = document.createElement("img");
+                astImage.src = latestAstUrl;
+                astImage.alt = "Abstract Syntax Tree visualization";
+                astImage.title = "Click to open the full AST";
+                astImage.addEventListener("click", openFullAst);
+
+                astImage.addEventListener("error", () => {
+                    astPreview.textContent =
+                        "AST image could not be loaded. Check that Graphviz generated ast_tree.png.";
+                    fullAstBtn.disabled = true;
+                });
+
+                astPreview.appendChild(astImage);
+                fullAstBtn.disabled = false;
+
+                const rows = Array.isArray(data.symbol_table) ? data.symbol_table : [];
+
+                symbolBody.innerHTML = rows.length
+                    ? rows.map(row => `
+                        <tr>
+                            <td><strong>${escapeHTML(row.name ?? "")}</strong></td>
+                            <td>${escapeHTML(row.value ?? "")}</td>
+                            <td>${escapeHTML(row.type ?? "")}</td>
+                        </tr>`).join("")
+                    : '<tr><td colspan="3">No symbol table entries were returned.</td></tr>';
+
+                engineStatus.textContent = "Optimization complete";
+                outputTag.textContent = "SUCCESS";
+
+                document.getElementById("astSection").scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest"
+                });
+
+            } catch (error) {
+                showError(error.message || "Could not connect to the optimization server.");
+
+                outputContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">!</div>
+                        <h3>Optimization failed</h3>
+                        <p>Check the error message and verify your source syntax and server.</p>
+                    </div>`;
+
+                astPreview.textContent =
+                    "AST unavailable because optimization did not complete.";
+
+                fullAstBtn.disabled = true;
+                latestAstUrl = null;
+                latestOptimizedCode = "";
+                lastSuccessfulSource = "";
+                resetLineStats();
+
+            } finally {
+                optimizeBtn.disabled = false;
+                optimizeBtn.textContent = "✦ Optimize Code";
+            }
+        }
+
+        function openFullAst() {
+            if (!latestAstUrl) return;
+
+            astModalBody.innerHTML = "";
+
+            const image = document.createElement("img");
+            image.src = latestAstUrl;
+            image.alt = "Full Abstract Syntax Tree";
+
+            astModalBody.appendChild(image);
+            astModal.classList.add("open");
+            document.body.style.overflow = "hidden";
+            closeAstBtn.focus();
+        }
+
+        function closeFullAst() {
+            astModal.classList.remove("open");
+            document.body.style.overflow = "";
+
+            if (!fullAstBtn.disabled) {
+                fullAstBtn.focus();
+            }
+        }
+
+        fullAstBtn.addEventListener("click", openFullAst);
+        closeAstBtn.addEventListener("click", closeFullAst);
+
+        lineStatsBtn.addEventListener("click", () => {
+            document.getElementById("lineStatsSection").scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        });
+
+        astModal.addEventListener("click", event => {
+            if (event.target === astModal) {
+                closeFullAst();
+            }
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape" && astModal.classList.contains("open")) {
+                closeFullAst();
+            }
+        });
+
+        updateLineCount();
+        resetLineStats();
+    </script>
+</body>
+</html>
