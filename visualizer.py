@@ -1,10 +1,37 @@
 
 import os
+import shutil
 import subprocess
+
 from ast_nodes import Num, Var, BinOp, Assign, Block, If, While
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-GRAPHVIZ_DOT = r"C:\Program Files\Graphviz\bin\dot.exe"
+
+
+def find_graphviz_dot():
+    """
+    Find Graphviz executable on Windows or Linux.
+    Works locally and on Render when Graphviz is installed.
+    """
+    dot_path = shutil.which("dot")
+
+    if dot_path:
+        return dot_path
+
+    # Fallback for Windows installations.
+    windows_paths = [
+        r"C:\Program Files\Graphviz\bin\dot.exe",
+        r"C:\Program Files (x86)\Graphviz\bin\dot.exe",
+    ]
+
+    for path in windows_paths:
+        if os.path.isfile(path):
+            return path
+
+    raise FileNotFoundError(
+        "Graphviz 'dot' executable not found. "
+        "Install Graphviz and ensure its bin directory is in PATH."
+    )
 
 
 def visualize_ast(tree, filename="ast_tree.dot", image_filename=None):
@@ -16,6 +43,12 @@ def visualize_ast(tree, filename="ast_tree.dot", image_filename=None):
 
     if not os.path.isabs(image_filename):
         image_filename = os.path.join(BASE_DIR, image_filename)
+
+    os.makedirs(os.path.dirname(os.path.abspath(filename)), exist_ok=True)
+    os.makedirs(
+        os.path.dirname(os.path.abspath(image_filename)),
+        exist_ok=True
+    )
 
     lines = [
         "digraph AST {",
@@ -29,7 +62,14 @@ def visualize_ast(tree, filename="ast_tree.dot", image_filename=None):
     def add_node(label):
         node_id = f"node{counter[0]}"
         counter[0] += 1
-        safe_label = str(label).replace("\\", "\\\\").replace('"', '\\"')
+
+        safe_label = (
+            str(label)
+            .replace("\\", "\\\\")
+            .replace('"', '\\"')
+            .replace("\n", "\\n")
+        )
+
         lines.append(f'    {node_id} [label="{safe_label}"];')
         return node_id
 
@@ -60,16 +100,21 @@ def visualize_ast(tree, filename="ast_tree.dot", image_filename=None):
         if isinstance(node, BinOp):
             visit(node.left, current)
             visit(node.right, current)
+
         elif isinstance(node, Assign):
             visit(node.value, current)
+
         elif isinstance(node, Block):
             for statement in node.statements:
                 visit(statement, current)
+
         elif isinstance(node, If):
             visit(node.condition, current)
             visit(node.then_branch, current)
+
             if node.else_branch is not None:
                 visit(node.else_branch, current)
+
         elif isinstance(node, While):
             visit(node.condition, current)
             visit(node.body, current)
@@ -80,9 +125,11 @@ def visualize_ast(tree, filename="ast_tree.dot", image_filename=None):
     with open(filename, "w", encoding="utf-8") as file:
         file.write("\n".join(lines))
 
+    dot_executable = find_graphviz_dot()
+
     subprocess.run(
         [
-            GRAPHVIZ_DOT,
+            dot_executable,
             "-Tpng",
             filename,
             "-o",
